@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export const ModuleListScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>Hello World!</Text>
+      <Text>List</Text>
       <StatusBar style="auto" />
     </View>
   );
