@@ -4,7 +4,6 @@ import Screen from "../layout/Screen";
 import ModuleList from "../entity/modules/ModuleList";
 
 import initialModules from "../../data/modules.js";
-import RenderCount from "../UI/RenderCount.js";
 
 export const ModuleListScreen = ({ navigation }) => {
   // Initialisations-------------------------
@@ -22,7 +21,6 @@ export const ModuleListScreen = ({ navigation }) => {
   // View -----------------------------------
   return (
     <Screen>
-      <RenderCount />
       <ModuleList modules={modules} onSelect={handleSelect} />
     </Screen>
   );
