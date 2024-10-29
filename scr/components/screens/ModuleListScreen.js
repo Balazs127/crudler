@@ -1,4 +1,4 @@
-import { Alert, LogBox, StyleSheet, Text } from "react-native";
+import { Alert, ActivityIndicator, LogBox, StyleSheet, Text, View } from "react-native";
 import useLoad from "../API/useLoad.js";
 import API from "../API/API.js";
 import Screen from "../layout/Screen";
@@ -8,14 +8,11 @@ import ModuleList from "../entity/modules/ModuleList";
 
 export const ModuleListScreen = ({ navigation }) => {
   // Initialisations-------------------------
-  LogBox.ignoreLogs([
-    "Non-serializable values were found in the navigation state",
-  ]);
+  LogBox.ignoreLogs(["Non-serializable values were found in the navigation state"]);
   const modulesEndpoint = "https://softwarehub.uk/unibase/api/modules";
 
   // State-----------------------------------
-  const [modules, setModules, isLoading, loadModules] =
-    useLoad(modulesEndpoint);
+  const [modules, setModules, isLoading, loadModules] = useLoad(modulesEndpoint);
 
   // Handlers--------------------------------
   const onDelete = async (module) => {
@@ -56,7 +53,12 @@ export const ModuleListScreen = ({ navigation }) => {
         <Button icon={<Icons.Add />} label="Add" onClick={goToAddScreen} />
       </ButtonTray>
 
-      {isLoading && <Text>Loading Records...</Text>}
+      {isLoading && (
+        <View style={styles.loading}>
+          <Text>Retrieving records from {modulesEndpoint}...</Text>
+          <ActivityIndicator size="large" />
+        </View>
+      )}
 
       <ModuleList modules={modules} onSelect={goToViewScreen} />
     </Screen>
@@ -65,6 +67,12 @@ export const ModuleListScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {},
+  loading: {
+    height: 100,
+    gap: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default ModuleListScreen;
