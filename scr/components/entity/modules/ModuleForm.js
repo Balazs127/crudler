@@ -10,7 +10,7 @@ const defaultModule = {
   ModuleLevel: null, // 6,
   ModuleLeaderID: null, // 1,
   ModuleLeaderName: null, // "Graeme JONES",
-  ModuleImage: null, //"https://images.freeimages.com/images/small-previews/cf5/cellphone-1313194.jpg",
+  ModuleImageURL: null, //"https://images.freeimages.com/images/small-previews/cf5/cellphone-1313194.jpg",
 };
 
 const ModuleForm = ({ originalModule, onSubmit, onCancel }) => {
@@ -73,8 +73,8 @@ const ModuleForm = ({ originalModule, onSubmit, onCancel }) => {
 
       <Form.InputText
         label="Module image URL"
-        value={module.ModuleImage}
-        onChange={(value) => handleChange("ModuleImage", value)}
+        value={module.ModuleImageURL}
+        onChange={(value) => handleChange("ModuleImageURL", value)}
       />
     </Form>
   );
