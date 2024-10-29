@@ -1,5 +1,6 @@
-import { LogBox, StyleSheet, Text } from "react-native";
+import { Alert, LogBox, StyleSheet, Text } from "react-native";
 import useLoad from "../API/useLoad.js";
+import API from "../API/API.js";
 import Screen from "../layout/Screen";
 import Icons from "../UI/Icons.js";
 import { Button, ButtonTray } from "../UI/Button.js";
@@ -7,38 +8,40 @@ import ModuleList from "../entity/modules/ModuleList";
 
 export const ModuleListScreen = ({ navigation }) => {
   // Initialisations-------------------------
-  LogBox.ignoreLogs(["Non-serializable values were found in the navigation state"]);
+  LogBox.ignoreLogs([
+    "Non-serializable values were found in the navigation state",
+  ]);
   const modulesEndpoint = "https://softwarehub.uk/unibase/api/modules";
 
   // State-----------------------------------
-  const [modules, setModules, isLoading, loadModules] = useLoad(modulesEndpoint);
+  const [modules, setModules, isLoading, loadModules] =
+    useLoad(modulesEndpoint);
 
   // Handlers--------------------------------
-  const handleDelete = (module) => {
-    setModules(modules.filter((item) => item.ModuleID !== module.ModuleID));
+  const onDelete = async (module) => {
+    deleteEndpount = `${modulesEndpoint}/${module.ModuleID}`;
+    const result = await API.delete(modulesEndpoint, module);
+    if (result.isSuccess) {
+      loadModules(modulesEndpoint);
+      navigation.goBack();
+    } else Alert.alert(result.message);
   };
 
-  const handleAdd = (module) => setModules([...modules, module]);
-
-  const handleModify = (updatedModule) => {
-    setModules(
-      modules.map((module) => (module.ModuleID === updatedModule.ModuleID ? updatedModule : module))
-    );
+  const onAdd = async (module) => {
+    const result = await API.post(modulesEndpoint, module);
+    if (result.isSuccess) {
+      loadModules(modulesEndpoint);
+      navigation.goBack();
+    } else Alert.alert(result.message);
   };
 
-  const onDelete = (module) => {
-    handleDelete(module);
-    navigation.goBack();
-  };
-
-  const onAdd = (module) => {
-    handleAdd(module);
-    navigation.goBack();
-  };
-
-  const onModify = (module) => {
-    handleModify(module);
-    navigation.navigate("ModuleListScreen");
+  const onModify = async (module) => {
+    const putEndpoint = `${modulesEndpoint}/${module.ModuleID}`;
+    const result = await API.put(putEndpoint, module);
+    if (result.isSuccess) {
+      loadModules(modulesEndpoint);
+      navigation.navigate("ModuleViewScreen", { module, onDelete, onModify });
+    } else Alert.alert(result.message);
   };
 
   const goToViewScreen = (module) =>
