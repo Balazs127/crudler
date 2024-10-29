@@ -9,9 +9,7 @@ import initialModules from "../../data/modules.js";
 
 export const ModuleListScreen = ({ navigation }) => {
   // Initialisations-------------------------
-  LogBox.ignoreLogs([
-    "Non-serializable values were found in the navigation state",
-  ]);
+  LogBox.ignoreLogs(["Non-serializable values were found in the navigation state"]);
 
   // State-----------------------------------
   const [modules, setModules] = useState(initialModules);
@@ -25,9 +23,7 @@ export const ModuleListScreen = ({ navigation }) => {
 
   const handleModify = (updatedModule) => {
     setModules(
-      modules.map((module) =>
-        module.ModuleID === updatedModule.ModuleID ? updatedModule : module
-      )
+      modules.map((module) => (module.ModuleID === updatedModule.ModuleID ? updatedModule : module))
     );
   };
 
@@ -41,7 +37,7 @@ export const ModuleListScreen = ({ navigation }) => {
     navigation.goBack();
   };
 
-  const onModify = (updatedModule) => {
+  const onModify = (module) => {
     handleModify(module);
     navigation.navigate("ModuleListScreen");
   };
