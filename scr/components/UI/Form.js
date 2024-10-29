@@ -1,14 +1,7 @@
 // npx expo install @react-native-picker/picker
 import { Picker } from "@react-native-picker/picker";
 
-import {
-  KeyboardAvoidingView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Button, ButtonTray } from "./Button.js";
 import Icons from "./Icons.js";
 
@@ -19,9 +12,7 @@ const Form = ({ children, onSubmit, onCancel, submitLabel, submitIcon }) => {
   // View -----------------------------------
   return (
     <KeyboardAvoidingView style={styles.formContainer}>
-      <ScrollView contentContainerStyle={styles.formItems}>
-        {children}
-      </ScrollView>
+      <ScrollView contentContainerStyle={styles.formItems}>{children}</ScrollView>
 
       <ButtonTray>
         <Button label={submitLabel} icon={submitIcon} onClick={onSubmit} />
@@ -39,16 +30,12 @@ const InputText = ({ label, value, onChange }) => {
   return (
     <View style={styles.item}>
       <Text style={styles.itemLabel}>{label}</Text>
-      <TextInput
-        value={value}
-        onChangeText={onChange}
-        style={styles.itemTextInput}
-      />
+      <TextInput value={value} onChangeText={onChange} style={styles.itemTextInput} />
     </View>
   );
 };
 
-const InputSelect = ({ label, prompt, options, value, onChange }) => {
+const InputSelect = ({ label, prompt, options, value, onChange, isLoading = false }) => {
   // Initialisations ------------------------
   // State ----------------------------------
   // Handlers--------------------------------
@@ -56,21 +43,23 @@ const InputSelect = ({ label, prompt, options, value, onChange }) => {
   return (
     <View style={styles.item}>
       <Text style={styles.itemLabel}>{label}</Text>
-      <Picker
-        mode="dialog"
-        selectedValue={value}
-        onValueChange={onChange}
-        style={styles.itemPickerStyle}
-      >
-        <Picker.Item
-          value={null}
-          label={prompt}
-          style={styles.itemPickerPromptStyle}
-        />
-        {options.map((option, index) => (
-          <Picker.Item key={index} value={option.value} label={option.label} />
-        ))}
-      </Picker>
+      {isLoading ? (
+        <View style={styles.itemLoading}>
+          <Text style={styles.itemLoadingText}>Loading records...</Text>
+        </View>
+      ) : (
+        <Picker
+          mode="dialog"
+          selectedValue={value}
+          onValueChange={onChange}
+          style={styles.itemPickerStyle}
+        >
+          <Picker.Item value={null} label={prompt} style={styles.itemPickerPromptStyle} />
+          {options.map((option, index) => (
+            <Picker.Item key={index} value={option.value} label={option.label} />
+          ))}
+        </Picker>
+      )}
     </View>
   );
 };
@@ -119,6 +108,20 @@ const styles = StyleSheet.create({
 
   itemPickerPromptStyle: {
     color: "gray",
+  },
+  itemLoading: {
+    height: 50,
+    backgroundColor: "mistyrose",
+    justifyContent: "center",
+    paddingLeft: 10,
+    borderColor: "lightgray",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingVertical: 10,
+  },
+  itemLoadingText: {
+    color: "gray",
+    fontSize: 16,
   },
 });
 
