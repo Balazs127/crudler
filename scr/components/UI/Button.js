@@ -1,27 +1,20 @@
-import { Pressable, StyleSheet, Text, Vibration, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import Selector from "./Selector";
 
 export const Button = ({ label, icon, onClick, styleLabel, styleButton }) => {
   // Initialisations ------------------------
   // State ----------------------------------
   // Handlers -------------------------------
-  const onPress = () => {
-    Vibration.vibrate(5);
-    onClick();
-  };
   // View -----------------------------------
   return (
-    <Pressable
-      onPress={onPress}
-      //style={[styles.button, styleButton]}
-      style={({ pressed }) => [
-        styles.button,
-        styleButton,
-        pressed && styles.pressedButton,
-      ]}
+    <Selector
+      onPress={onClick}
+      style={[styles.button, styleButton]}
+      pressedStyle={styles.pressedButton}
     >
       {icon ? icon : null}
       <Text style={[styles.label, styleLabel]}>{label}</Text>
-    </Pressable>
+    </Selector>
   );
 };
 
@@ -56,5 +49,6 @@ const styles = StyleSheet.create({
   },
   pressedButton: {
     backgroundColor: "lightblue",
+    elevation: 5,
   },
 });
