@@ -1,12 +1,24 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, Vibration, View } from "react-native";
 
 export const Button = ({ label, icon, onClick, styleLabel, styleButton }) => {
   // Initialisations ------------------------
   // State ----------------------------------
   // Handlers -------------------------------
+  const onPress = () => {
+    Vibration.vibrate(5);
+    onClick();
+  };
   // View -----------------------------------
   return (
-    <Pressable onPress={onClick} style={[styles.button, styleButton]}>
+    <Pressable
+      onPress={onPress}
+      //style={[styles.button, styleButton]}
+      style={({ pressed }) => [
+        styles.button,
+        styleButton,
+        pressed && styles.pressedButton,
+      ]}
+    >
       {icon ? icon : null}
       <Text style={[styles.label, styleLabel]}>{label}</Text>
     </Pressable>
@@ -41,5 +53,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
+  },
+  pressedButton: {
+    backgroundColor: "lightblue",
   },
 });
