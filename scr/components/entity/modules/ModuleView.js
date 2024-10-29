@@ -20,10 +20,7 @@ const ModuleView = ({ module, onDelete, onModify }) => {
   return (
     <View style={styles.container}>
       {/* npm install --save react-native-fullwidth-image */}
-      <FullWidthImage
-        source={{ uri: module.ModuleImage }}
-        style={styles.image}
-      />
+      <FullWidthImage source={{ uri: module.ModuleImageURL }} style={styles.image} />
 
       <View style={styles.infoTray}>
         <Text style={styles.boldText}>
@@ -31,8 +28,7 @@ const ModuleView = ({ module, onDelete, onModify }) => {
         </Text>
         <Text style={styles.text}>Level {module.ModuleLevel}</Text>
         <Text style={styles.text}>
-          {module.ModuleLeaderName}{" "}
-          <Text style={styles.dimText}>(Module Leader)</Text>
+          {module.ModuleLeaderName} <Text style={styles.dimText}>(Module Leader)</Text>
         </Text>
       </View>
       <ButtonTray>
